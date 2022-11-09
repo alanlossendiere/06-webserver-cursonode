@@ -1,29 +1,37 @@
+require('dotenv').config()
+
 const express = require("express");
 const app = express();
-const port = 8080;
+const port = process.env.PORT;
+const hbs = require("hbs");
+
+// Handlebars
+app.set("view engine", "hbs");
+hbs.registerPartials(__dirname + "/views/partials");
 
 //Servir contenido estatico
 
 app.use(express.static("public"));
 
 app.get("/", function (req, res) {
-  res.send("Home Page");
-});
-
-app.get("/hola-mundo", function (req, res) {
-  res.send("Hola mundo en su respectiva ruta");
-});
-
-app.get("/home", function (req, res) {
-  res.sendFile(__dirname + "/public/index.html");
-});
-
-app.get("/generic", function (req, res) {
-  res.sendFile(__dirname + "/public/generic.html");
+  res.render("home", {
+    nombre: "Alan",
+    titulo: "curso node",
+  });
 });
 
 app.get("/elements", function (req, res) {
-  res.sendFile(__dirname + "/public/elements.html");
+  res.render("elements", {
+    nombre: "Elements",
+    titulo: "Aluson - elements",
+  });
+});
+
+app.get("/generic", function (req, res) {
+  res.render("generic", {
+    nombre: "generic",
+    titulo: "Aluson - generic",
+  });
 });
 
 app.listen(port, () => {
